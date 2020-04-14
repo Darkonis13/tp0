@@ -8,15 +8,18 @@ public class Item {
         return valor;
     }
 
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setValor(double valor) throws ValorNegativoException {
+        if(valor>=0){
+            this.valor = valor;
+        }
+        else throw new ValorNegativoException();
     }
 
     public boolean isEsArticulo() {
         return esArticulo;
     }
 
-    public void setEsServicio(boolean esArticulo) {
+    public void setEsArticulo(boolean esArticulo) {
         this.esArticulo = esArticulo;
     }
 

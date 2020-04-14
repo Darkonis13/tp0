@@ -29,6 +29,10 @@ public class OperacionDeEgreso {
 
     }
 
+    public Documento getDocumentoComercial() {
+        return documentoComercial;
+    }
+
     public void cerrar() throws OperacionYaCerradaException{
         if(!isCerrada()){
             calcularValor();
@@ -40,10 +44,20 @@ public class OperacionDeEgreso {
 
     }
 
-    public void generarRemito(){
-       if(Items.stream().allMatch(i -> i.isEsArticulo() ))
-           documentoComercial = new Documento();
+    public void generarRemito() throws OperacionYaCerradaException, NoHayItemsException {
+        if(!Items.isEmpty()){
+            if(Items.stream().allMatch(i -> i.isEsArticulo() ))
+                if(isCerrada()){
+                    documentoComercial = new Documento(calcularValor());
+                }
+                else{
+                    cerrar();
+                    documentoComercial = new Documento(calcularValor());
+                }
+        }
+        else throw new NoHayItemsException();
     }
+
 
     public List<Item> getItems() {
         return Items;
